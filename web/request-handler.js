@@ -19,12 +19,10 @@ exports.handleRequest = function (req, res) {
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {
         res.writeHead(200, headers);
-        res.end(data)
-      })
+        res.end(data);
+      });
     } else {
       var fixtureName = url.parse(req.url).pathname;
-      console.log(fixtureName);
-      console.log("Path: " + archive.paths.archivedSites);
       fs.readFile(archive.paths.archivedSites + '/' + fixtureName, function(err, data) {
         if (err) {
           res.writeHead(404, headers);
@@ -37,5 +35,31 @@ exports.handleRequest = function (req, res) {
         }
       });
     }
+  }
+
+  var urlStr;
+  if (req.method === 'POST') {
+    req.on('data', function(data) {
+      data = data.toString();
+      data = JSON.parse(data);
+      urlStr = data.url + '\n';
+      console.log(urlStr);
+      console.log(archive.paths.list);
+
+      fs.appendFile(archive.paths.list, urlStr, function(err) {
+        if (err) {
+          res.writeHead(500, headers);
+          res.end('error');
+        } else {
+          res.writeHead(201, headers);
+          res.end('success!');          
+        }
+      });
+
+    });
+
+    res.on('end', function() {
+
+    });
   }
 };

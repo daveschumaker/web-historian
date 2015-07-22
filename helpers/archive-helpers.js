@@ -13,6 +13,7 @@ exports.paths = {
   siteAssets: path.join(__dirname, '../web/public'),
   archivedSites: path.join(__dirname, '../archives/sites'),
   list: path.join(__dirname, '../archives/sites.txt')
+  //list: path.join(__dirname, '../test/testdata/sites.txt')
 };
 
 // Used for stubbing paths for tests, do not modify
