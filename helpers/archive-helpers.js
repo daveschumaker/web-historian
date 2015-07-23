@@ -41,34 +41,32 @@ exports.readListOfUrls = function(callback){
 };
 
 exports.isUrlInList = function(target, callback){
-  fs.readFile(this.paths.list, function(err, data) {
-    var urlArray;
+  var found = false;
+  var urlArray;
 
+  fs.readFile(this.paths.list, function(err, data) {
     if (err) {
       return;
     } else {
       urlArray = data.toString();
       urlArray = urlArray.split('\n');
-
       for (var i = urlArray.length - 1; i >= 0; i--) {
         if (urlArray[i] === target) {
-          console.log(urlArray[i]);
-          callback(urlArray[i]);
-          return;
-        } else {
-          callback(false);
-        }
+          found = true;
+        } 
       }
     }
   });
 
+  if (found === true) {
+    callback(target);
+  } else {
+    callback(false);
+  }
 };
 exports.addUrlToList = function(url, callback){
   var that = this;
   fs.appendFileSync(this.paths.list, url + '\n');
-  // console.log("XXXXX  " + that.readListOfUrls(function(urls) {
-  //   return urls;
-  // }));
   callback();
 };
 
