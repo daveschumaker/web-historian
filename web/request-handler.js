@@ -16,8 +16,6 @@ var headers = {
 
 exports.handleRequest = function (req, res) {
   if (req.method === 'GET') {
-    archive.downloadUrls(['www.example.com']);
-    archive.downloadUrls(['www.examdddple.com']);
     // console.log(archive.readListOfUrls());
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {

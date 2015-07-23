@@ -85,23 +85,26 @@ exports.isUrlArchived = function(url, callback){
 };
 
 exports.downloadUrls = function(urlArray){
-  console.log(urlArray);
+  // console.log(urlArray);
   // iterate through array
+  var context = this;
   for (var i = 0; i < urlArray.length; i++) {
     var tempURL = urlArray[i];
-    if (this.isUrlArchived(urlArray[i], function(url) { return; })) {
-      console.log('We already found website: ' + tempURL);
-    } else {
-      // TODO: FIX THIS.
-      // Website not found, let's download it!!!
-      console.log('Downloading website....');
 
-    }
-
-
+    this.isUrlArchived(tempURL, function(url) {
+      if (url) {
+        // Website already found in our archive. Do nothing.
+        console.log('Website is in our archive: ' + tempURL);
+      } else {
+        // Website not found in our archive.
+        // DOWNLOAD THE WEBSITE RIGHT HERE.
+        console.log('Downloading website... ' + tempURL);
+        fs.writeFile(context.paths.archivedSites + '/' + tempURL, 'Some website info is here....', function(err) {
+          if (err) {
+            console.log(err);
+          }
+        }) 
+      }
+    });
   }
-
-    // check if file exists
-      // If file doesn't exist, create it with fs.writeFile using website name??
-
 };
