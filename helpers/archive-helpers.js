@@ -50,26 +50,26 @@ exports.isUrlInList = function(target, callback){
       urlArray = data.toString();
       urlArray = urlArray.split('\n');
 
-      for (var i = 0; i < urlArray.length; i++) {
+      for (var i = urlArray.length - 1; i >= 0; i--) {
         if (urlArray[i] === target) {
+          console.log(urlArray[i]);
           callback(urlArray[i]);
+          return;
         } else {
           callback(false);
         }
       }
-
-      // if (urlArray.indexOf(target) === -1) {
-      //   return false;
-      // } else {
-      //   return true;
-      // }
-      // return callback(urlArray);
     }
   });
 
 };
-
-exports.addUrlToList = function(){
+exports.addUrlToList = function(url, callback){
+  var that = this;
+  fs.appendFileSync(this.paths.list, url + '\n');
+  // console.log("XXXXX  " + that.readListOfUrls(function(urls) {
+  //   return urls;
+  // }));
+  callback();
 };
 
 exports.isUrlArchived = function(){
