@@ -104,7 +104,11 @@ exports.downloadUrls = function(urlArray){
 
       res.on('end', function() {
         console.log('Are we ending???')
-        return webSite;
+        fs.writeFile(context.paths.archivedSites + '/' + tempURL, webSite, function(err) {
+          if (err) {
+            console.log(err);
+          }
+        })
       });
     });
     // ajaxy stuff happens here.
@@ -127,13 +131,10 @@ exports.downloadUrls = function(urlArray){
         // Website not found in our archive.
         // DOWNLOAD THE WEBSITE RIGHT HERE.
         console.log('Downloading website... ' + tempURL);
-        var websiteData = getPage(tempURL);
-        console.log(websiteData);
-        fs.writeFile(context.paths.archivedSites + '/' + tempURL, websiteData, function(err) {
-          if (err) {
-            console.log(err);
-          }
-        }) 
+       
+        getPage(tempURL);
+
+        // Trying to use writeStream instead.
       }
     });
   }
