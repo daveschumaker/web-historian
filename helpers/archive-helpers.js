@@ -70,8 +70,38 @@ exports.addUrlToList = function(url, callback){
   callback();
 };
 
-exports.isUrlArchived = function(){
+exports.isUrlArchived = function(url, callback){
+  var found = false;
+
+  fs.readFile(this.paths.archivedSites + '/' + url, function(err, data) {
+    if (err) {
+      return callback(false);
+    } else {
+      return callback(true);
+    }
+  });
+
+  return found;
 };
 
-exports.downloadUrls = function(){
+exports.downloadUrls = function(urlArray){
+  console.log(urlArray);
+  // iterate through array
+  for (var i = 0; i < urlArray.length; i++) {
+    var tempURL = urlArray[i];
+    if (this.isUrlArchived(urlArray[i], function(url) { return; })) {
+      console.log('We already found website: ' + tempURL);
+    } else {
+      // TODO: FIX THIS.
+      // Website not found, let's download it!!!
+      console.log('Downloading website....');
+
+    }
+
+
+  }
+
+    // check if file exists
+      // If file doesn't exist, create it with fs.writeFile using website name??
+
 };
