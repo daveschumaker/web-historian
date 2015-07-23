@@ -11,7 +11,6 @@ var headers = {
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
   "access-control-allow-headers": "content-type, accept",
   "access-control-max-age": 10, // Seconds.
-  'Content-Type': "text/html"
 };
 
 exports.handleRequest = function (req, res) {
@@ -19,22 +18,20 @@ exports.handleRequest = function (req, res) {
     // console.log(archive.readListOfUrls());
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {
-        res.writeHead(200, headers);
         headers['Content-Type'] = "text/html";
+        res.writeHead(200, headers);
         res.end(data);
       });
     } else if (req.url === '/styles.css') {
       helper.serveAssets(res, '/styles.css', function(err, data) {
-        // TODO: Need to fix all these headers.
+        headers['Content-Type'] = "text/css";
         res.writeHead(200, headers);
-        //headers['Content-Type'] = "text/plain";
         res.end(data);
       }); 
     } else if (req.url === '/scripts/jquery-min.js') {
       helper.serveAssets(res, '/scripts/jquery-min.js', function(err, data) {
-        // TODO: Need to fix all these headers.
+        headers['Content-Type'] = "text/javascript";
         res.writeHead(200, headers);
-        //headers['Content-Type'] = "text/plain";
         res.end(data);
       });         
     } else {
