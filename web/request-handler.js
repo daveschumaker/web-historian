@@ -15,7 +15,7 @@ var headers = {
 
 exports.handleRequest = function (req, res) {
   if (req.method === 'GET') {
-    // console.log(archive.readListOfUrls());
+    console.log(archive.downloadUrls(['www.google.com']));
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {
         headers['Content-Type'] = "text/html";

@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require('http');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -87,6 +88,33 @@ exports.isUrlArchived = function(url, callback){
 exports.downloadUrls = function(urlArray){
   // console.log(urlArray);
   // iterate through array
+
+  var getPage = function(urlName) {
+    var options = {
+      host: urlName,
+      port: 80,
+      path: '/'
+    };
+
+    http.get(options, function(res) {
+      var webSite = "";
+      res.on('data', function(chunk) {
+        webSite += chunk.toString();
+      });
+
+      res.on('end', function() {
+        console.log('Are we ending???')
+        return webSite;
+      });
+    });
+    // ajaxy stuff happens here.
+
+      // Get chunked data
+      // On res.end, we return chunked in data
+
+    // return chunked data when done
+  };
+
   var context = this;
   for (var i = 0; i < urlArray.length; i++) {
     var tempURL = urlArray[i];
@@ -99,7 +127,9 @@ exports.downloadUrls = function(urlArray){
         // Website not found in our archive.
         // DOWNLOAD THE WEBSITE RIGHT HERE.
         console.log('Downloading website... ' + tempURL);
-        fs.writeFile(context.paths.archivedSites + '/' + tempURL, 'Some website info is here....', function(err) {
+        var websiteData = getPage(tempURL);
+        console.log(websiteData);
+        fs.writeFile(context.paths.archivedSites + '/' + tempURL, websiteData, function(err) {
           if (err) {
             console.log(err);
           }
