@@ -15,7 +15,7 @@ var headers = {
 
 exports.handleRequest = function (req, res) {
   if (req.method === 'GET') {
-    console.log(archive.downloadUrls(['www.google.com']));
+    // console.log(archive.downloadUrls(['www.google.com']));
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {
         headers['Content-Type'] = "text/html";
@@ -53,10 +53,14 @@ exports.handleRequest = function (req, res) {
   var urlStr;
   if (req.method === 'POST') {
     req.on('data', function(data) {
-      data = data.toString();
+      // if (data.subString(0, 4) === 'url=') {
+      //   data = JSON.stringify(data);
+      // }
+      data = data.toString().slice(4)
+      data = JSON.stringify(data);
       data = JSON.parse(data);
-      urlStr = data.url + '\n';
-      console.log(urlStr);
+      urlStr = data + '\n';
+      console.log('URL?? ' + urlStr);
       console.log(archive.paths.list);
 
       fs.appendFile(archive.paths.list, urlStr, function(err) {
