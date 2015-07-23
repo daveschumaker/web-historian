@@ -34,15 +34,39 @@ exports.readListOfUrls = function(callback){
     } else {
       urlArray = data.toString();
       urlArray = urlArray.split('\n');
-      // console.log('From: readListofUrls()');
-      // console.log(urlArray);
       return callback(urlArray);
     }
   });
 
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(target, callback){
+  fs.readFile(this.paths.list, function(err, data) {
+    var urlArray;
+
+    if (err) {
+      return;
+    } else {
+      urlArray = data.toString();
+      urlArray = urlArray.split('\n');
+
+      for (var i = 0; i < urlArray.length; i++) {
+        if (urlArray[i] === target) {
+          callback(urlArray[i]);
+        } else {
+          callback(false);
+        }
+      }
+
+      // if (urlArray.indexOf(target) === -1) {
+      //   return false;
+      // } else {
+      //   return true;
+      // }
+      // return callback(urlArray);
+    }
+  });
+
 };
 
 exports.addUrlToList = function(){
