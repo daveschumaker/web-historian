@@ -20,8 +20,23 @@ exports.handleRequest = function (req, res) {
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {
         res.writeHead(200, headers);
+        headers['Content-Type'] = "text/html";
         res.end(data);
       });
+    } else if (req.url === '/styles.css') {
+      helper.serveAssets(res, '/styles.css', function(err, data) {
+        // TODO: Need to fix all these headers.
+        res.writeHead(200, headers);
+        //headers['Content-Type'] = "text/plain";
+        res.end(data);
+      }); 
+    } else if (req.url === '/scripts/jquery-min.js') {
+      helper.serveAssets(res, '/scripts/jquery-min.js', function(err, data) {
+        // TODO: Need to fix all these headers.
+        res.writeHead(200, headers);
+        //headers['Content-Type'] = "text/plain";
+        res.end(data);
+      });         
     } else {
       var fixtureName = url.parse(req.url).pathname;
       fs.readFile(archive.paths.archivedSites + '/' + fixtureName, function(err, data) {
