@@ -16,6 +16,7 @@ var headers = {
 
 exports.handleRequest = function (req, res) {
   if (req.method === 'GET') {
+    // console.log(archive.readListOfUrls());
     if (req.url === '/') {
       helper.serveAssets(res, '/index.html', function(err, data) {
         res.writeHead(200, headers);

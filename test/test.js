@@ -71,7 +71,7 @@ describe("server", function() {
   });
 });
 
-xdescribe("archive helpers", function(){
+describe("archive helpers", function(){
   describe("#readListOfUrls", function () {
     it("should read urls from sites.txt", function (done){
       var urlArray = ["example1.com", "example2.com"];
